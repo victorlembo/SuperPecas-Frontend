@@ -1,0 +1,84 @@
+<p-card>
+    <div class="container" style="padding: 8px;">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Listagem de Carros</h1>
+            </div>
+            <div class="col-md-4">
+                <input type="text" pInputText class="form-control"
+                    placeholder="Pesquisar por modelo, fabricante ou codigo unico ..."
+                    style="width: 25%; margin-right: 8px;" [(ngModel)]="term" />
+                <p-button icon="pi pi-search" (click)="search()" style="margin-right: 8px;"></p-button>
+                <p-button icon="pi pi-times" label="Limpar" (click)="clearSearch()"></p-button>
+                <p-button style="float: right;" label="Criar Carro" icon="pi pi-plus" (click)="addForm()"></p-button>
+            </div>
+        </div>
+    </div>
+
+    <p-table [value]="data" [paginator]="true" [rows]="10" [first]="first" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="pageChange($event)">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:10%; text-align: center;">Ações</th>
+                <th style="width:10%; text-align: center;">ID</th>
+                <th style="width:25%; text-align: center;">Modelo</th>
+                <th style="width:25%; text-align: center;">Fabricante</th>
+                <th style="width:25%; text-align: center;">Codigo Unico</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-carro>
+            <tr>
+                <td style="display: flex; justify-content:space-around;">
+                    <p-button icon="pi pi-pencil" (click)="editForm(carro)"></p-button>
+                    <p-button icon="pi pi-trash" (click)="deleteCarro(carro.carroID)"></p-button>
+                </td>
+                <td style="text-align: center;">{{ carro.carroID }}</td>
+                <td style="text-align: center;">{{ carro.nomeModelo }}</td>
+                <td style="text-align: center;">{{ carro.fabricante }}</td>
+                <td style="text-align: center;">{{ carro.codigoUnico }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+</p-card>
+<p-dialog [header]="dialogHeader" [(visible)]="visible" [modal]="true"
+    [style]="{ 'width': '500px', 'max-width': '90%' }">
+    <form>
+        <div class="flex flex-column py-2 gap-4" style="border-radius: 12px;">
+            <div class="inline-flex flex-column gap-2">
+                <label for="nomeModelo" class="text-secondary-50 font-semibold">Nome do Modelo:</label>
+                <input pInputText type="text" id="nomeModelo" name="nomeModelo" [(ngModel)]="carro.nomeModelo"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+                <label for="fabricante" class="text-secondary-50 font-semibold">Fabricante:</label>
+                <input pInputText type="text" id="fabricante" name="fabricante" [(ngModel)]="carro.fabricante"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+                <label for="codigoUnico" class="text-secondary-50 font-semibold">Código Único:</label>
+                <input pInputText type="text" id="codigoUnico" name="codigoUnico" [(ngModel)]="carro.codigoUnico"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="flex align-items-center gap-2">
+                <p-button icon="pi pi-check" label="Salvar" (click)="submitForm()"
+                    styleClass="w-full text-primary-50 border-1 border-white-alpha-30" class="w-full"></p-button>
+                <p-button icon="pi pi-times" label="Cancelar" (click)="closeForm()"
+                    styleClass="w-full text-primary-50 border-1 border-white-alpha-30" class="w-full"></p-button>
+            </div>
+        </div>
+
+    </form>
+</p-dialog>
+<p-dialog header="Aviso" [(visible)]="display" [modal]="true" [style]="{ 'width': '250px', 'max-width': '90%' }">
+    <div class="flex flex-column py-2 gap-4" style="border-radius: 12px;">
+        <p>{{ message }}</p>
+        <p-button style="align-self: center;"  icon="pi pi-times" (click)="display = false" label="Fechar"
+        styleClass="text-primary-50 border-1 border-white-alpha-30 w-full"></p-button>    </div>
+</p-dialog>

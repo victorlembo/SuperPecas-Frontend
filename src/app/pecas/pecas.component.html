@@ -1,0 +1,107 @@
+<p-card>
+    <div class="container" style="padding: 8px;">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Listagem de Peças</h1>
+            </div>
+            <div class="col-md-4">
+                <input type="text" pInputText class="form-control"
+                    placeholder="Pesquisar por modelo, fabricante ou codigo unico ..."
+                    style="width: 25%; margin-right: 8px;" [(ngModel)]="term" />
+                <p-button icon="pi pi-search" (click)="search()" style="margin-right: 8px;"></p-button>
+                <p-button icon="pi pi-times" label="Limpar" (click)="clearSearch()"></p-button>
+                <p-button style="float: right;" label="Criar Peças" icon="pi pi-plus" (click)="addForm()"></p-button>
+            </div>
+        </div>
+    </div>
+
+    <p-table [value]="data" [paginator]="true" [rows]="10" [first]="first" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="pageChange($event)">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:10%; text-align: center;">Ações</th>
+                <th style="width:10%; text-align: center;">ID</th>
+                <th style="width:25%; text-align: center;">Nome</th>
+                <th style="width:25%; text-align: center;">Descricao</th>
+                <th style="width:25%; text-align: center;">Numero Serie</th>
+                <th style="width:25%; text-align: center;">Fabricante</th>
+                <th style="width:25%; text-align: center;">Modelo Carro</th>
+                <th style="width:25%; text-align: center;">Carro ID</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-peca>
+            <tr>
+                <td style="display: flex; justify-content:space-around;">
+                    <p-button icon="pi pi-pencil" (click)="editForm(peca)"></p-button>
+                    <p-button icon="pi pi-trash" (click)="deletePeca(peca.pecaID)"></p-button>
+                </td>
+                <td style="text-align: center;">{{ peca.pecaID }}</td>
+                <td style="text-align: center;">{{ peca.nome }}</td>
+                <td style="text-align: center;">{{ peca.descricao }}</td>
+                <td style="text-align: center;">{{ peca.numeroSerie }}</td>
+                <td style="text-align: center;">{{ peca.fabricante }}</td>
+                <td style="text-align: center;">{{ peca.modeloCarro }}</td>
+                <td style="text-align: center;">{{ peca.carroID }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+</p-card>
+<p-dialog [header]="dialogHeader" [(visible)]="visible" [modal]="true"
+    [style]="{ 'width': '500px', 'max-width': '90%' }">
+    <form>
+        <div class="flex flex-column py-2 gap-4" style="border-radius: 12px;">
+            <div class="inline-flex flex-column gap-2">
+                <label for="nome" class="text-secondary-50 font-semibold">Nome:</label>
+                <input pInputText type="text" id="nome" name="nome" [(ngModel)]="peca.nome"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+                <label for="descricao" class="text-secondary-50 font-semibold">Descricao:</label>
+                <input pInputText type="text" id="descricao" name="descricao" [(ngModel)]="peca.descricao"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+                <label for="numeroSerie" class="text-secondary-50 font-semibold">Numero de Serie:</label>
+                <input pInputText type="text" id="numeroSerie" name="numeroSerie" [(ngModel)]="peca.numeroSerie"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+                <label for="fabricante" class="text-secondary-50 font-semibold">Fabricante:</label>
+                <input pInputText type="text" id="fabricante" name="fabricante" [(ngModel)]="peca.fabricante"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+
+            <div class="inline-flex flex-column gap-2">
+                <label for="modeloCarro" class="text-secondary-50 font-semibold">Modelo Carro:</label>
+                <input pInputText type="text" id="modeloCarro" name="modeloCarro" [(ngModel)]="peca.modeloCarro"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+                <label for="carroID" class="text-secondary-50 font-semibold">Carro ID:</label>
+                <input pInputText type="text" id="carroID" name="carroID" [(ngModel)]="peca.carroID"
+                    class="bg-white-alpha-20 border-1 p-3 text-secondary-50" required>
+            </div>
+            <div class="flex align-items-center gap-2">
+                <p-button icon="pi pi-check" label="Salvar" (click)="submitForm()"
+                    styleClass="w-full text-primary-50 border-1 border-white-alpha-30" class="w-full"></p-button>
+                <p-button icon="pi pi-times" label="Cancelar" (click)="closeForm()"
+                    styleClass="w-full text-primary-50 border-1 border-white-alpha-30" class="w-full"></p-button>
+            </div>
+        </div>
+
+    </form>
+</p-dialog>
+<p-dialog header="Aviso" [(visible)]="display" [modal]="true" [style]="{ 'width': '250px', 'max-width': '90%' }">
+    <div class="flex flex-column py-2 gap-4" style="border-radius: 12px;">
+        <p>{{ message }}</p>
+        <p-button style="align-self: center;" icon="pi pi-times" (click)="display = false" label="Fechar"
+            styleClass="text-primary-50 border-1 border-white-alpha-30 w-full"></p-button>
+    </div>
+</p-dialog>

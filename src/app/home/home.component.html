@@ -1,0 +1,18 @@
+<div class="header">
+    <p-card>
+        <div class="text-container" style="text-align: center;">
+            <h1>Bem vindo ao Super Peças!</h1>
+        </div>
+        <div style="display: flex; justify-content: space-around;">
+            <div>
+                <h2>Distribuição dos Top 10 Fabricantes</h2>
+                <p-chart type="pie" [data]="fabricantesData" [style]="{width: '30%', height: '100px'}"></p-chart>
+            </div>
+            <div>
+                <h2>Contagem de Peças por Modelo de Carro</h2>
+                <p-chart type="bar" [data]="carrosData" [options]="chartOptions"
+                    [style]="{width: '30%', height: '100px'}"></p-chart>
+            </div>
+        </div>
+    </p-card>
+</div>
