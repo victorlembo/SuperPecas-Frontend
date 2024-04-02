@@ -8,6 +8,5 @@ RUN npm run build
 
 # Stage 2: Serve Angular app with nginx
 FROM nginx:alpine
-ARG name=super-pecas
-COPY --from=angular /ng-app/dist/$name/browser /usr/share/nginx/html
+COPY --from=angular /ng-app/dist/super-pecas /usr/share/nginx/html
 EXPOSE 80
