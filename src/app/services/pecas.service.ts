@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Peca } from '../model/Peca';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PecasService {
-  private baseUrl = 'http://localhost:8080/api/peca';
-
+  private baseUrl = environment.apiUrl + '/api/carro';
+  
   constructor(private http: HttpClient) { }
 
-  getAll(){
+  getAll() {
     return this.http.get(`${this.baseUrl}/listarTodos`)
   }
 
