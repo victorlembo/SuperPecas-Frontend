@@ -1,4 +1,4 @@
-FROMnode:20-alpine as angular
+FROM node:20-alpine as angular
  WORKDIR /ng-app
  COPY package*.json .
  RUNnpmci
