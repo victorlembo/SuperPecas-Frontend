@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class PecasService {
-  private baseUrl = environment.apiUrl + '/api/carro';
+  private baseUrl = environment.apiUrl + '/api/peca';
   
   constructor(private http: HttpClient) { }
 
